@@ -11,7 +11,7 @@ const getStartingPosition = () => {
   }
 };
 
-const pathFind = () => {
+const solve1_2 = () => {
   let sPos = getStartingPosition();
   const visited = new Set();
   let isVisited = (pos, set) => set.has(pos);
@@ -88,45 +88,32 @@ const pathFind = () => {
   );
 
   let outside = new Set();
-
   let within = false;
   let up = null;
-
   for (let r = 0; r < updatedGrid.length; r++) {
     let row = updatedGrid[r];
-
     for (let c = 0; c < row.length; c++) {
       let sym = row[c];
-
       if (sym === "|") {
-        console.assert(up === null, "Assertion Error: up should be null");
         within = !within;
-      } else if (sym === "-") {
-        console.assert(up !== null, "Assertion Error: up should not be null");
+      } else if (sym === "-" || sym === ".") {
       } else if (["L", "F"].includes(sym)) {
-        console.assert(up === null, "Assertion Error: up should be null");
         up = sym === "L";
       } else if (["7", "J"].includes(sym)) {
-        console.assert(up !== null, "Assertion Error: up should not be null");
         if (sym !== (up ? "J" : "7")) {
           within = !within;
         }
         up = null;
-      } else if (sym === ".") {
-        // Do nothing
       } else {
-        throw new Error(
-          `Runtime Error: unexpected character (horizontal): ${sym}`
-        );
+        throw new Error(`Unexpected character: ${sym}`);
       }
-
       if (!within) {
         outside.add([r, c]);
       }
     }
   }
 
-  let uniqueOutsideAndLoop = new Set([
+  let outsideAndVisited = new Set([
     ...outside.map((x) => x.join(",")),
     ...visited,
   ]);
@@ -134,9 +121,9 @@ const pathFind = () => {
   console.log(`Part 1: ${Math.floor(visited.size / 2)}`);
   console.log(
     `Part 2: ${
-      updatedGrid.length * updatedGrid[0].length - uniqueOutsideAndLoop.size
+      updatedGrid.length * updatedGrid[0].length - outsideAndVisited.size
     }`
   );
 };
 
-pathFind();
+solve1_2();
