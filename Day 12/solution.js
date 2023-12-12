@@ -2,7 +2,7 @@ const fs = require("fs");
 const data = fs.readFileSync("data.txt", { encoding: "utf-8" }).split("\r\n");
 
 /*
- *-$Inspired by HyperNeutrino$-*
+ *-$Caching inspired by HyperNeutrino$-*
  */
 
 const combinatoricsObj = data.map((x) => {
@@ -54,8 +54,8 @@ for (let c of combinatoricsObj) {
     .slice(0, -1)
     .split(",")
     .map(Number);
-  total1 += countCombinations(part1combination, part1req);
-  total2 += countCombinations(part2combination, part2req);
+  solve_1 += countCombinations(part1combination, part1req);
+  solve_2 += countCombinations(part2combination, part2req);
 }
 
 console.log(solve_1, solve_2);
